@@ -1,0 +1,23 @@
+:8080 {
+    # 리버스 프록시 설정
+    reverse_proxy fastapi:8000
+
+    # 로깅
+    log {
+        output stdout
+        format json
+    }
+
+    # 헬스체크 엔드포인트
+    handle /health {
+        reverse_proxy fastapi:8000
+    }
+
+    # 기본 헤더 설정
+    header {
+        # 보안 헤더
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        X-XSS-Protection "1; mode=block"
+    }
+}
